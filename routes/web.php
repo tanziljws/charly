@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\BeritaController as AdminBeritaController;
 use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Frontend\SearchController;
 
 // Frontend Routes
 Route::get('/', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
@@ -16,6 +17,7 @@ Route::get('/galeri', [App\Http\Controllers\Frontend\GalleryController::class, '
 Route::get('/galeri/{slug}', [App\Http\Controllers\Frontend\GalleryController::class, 'show'])->name('gallery.show');
 Route::get('/kontak', [App\Http\Controllers\Frontend\ContactController::class, 'index'])->name('contact.index');
 Route::post('/kontak', [App\Http\Controllers\Frontend\ContactController::class, 'store'])->name('contact.store');
+Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
 // Authentication Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

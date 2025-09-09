@@ -84,6 +84,8 @@
             color: var(--accent-color) !important;
         }
 
+        /* Accessibility Controls (removed) */
+
         /* Main Content */
         .main-content {
             min-height: calc(100vh - 200px);
@@ -390,11 +392,22 @@
                                 <i class="fas fa-envelope me-1"></i>Kontak
                             </a>
                         </li>
+                        <li class="nav-item d-flex align-items-center ms-3">
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#globalSearchModal"><i class="fas fa-search me-1"></i>Cari</button>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
+    @hasSection('breadcrumbs')
+    <section class="py-2" style="background: var(--bg-primary); border-bottom: 1px solid var(--border-color);">
+        <div class="container">
+            @yield('breadcrumbs')
+        </div>
+    </section>
+    @endif
 
     <!-- Main Content -->
     <main class="main-content">
@@ -441,6 +454,27 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+
+    <!-- Global Search Modal -->
+    <div class="modal fade" id="globalSearchModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 16px; overflow: hidden;">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title"><i class="fas fa-search me-2"></i>Pencarian</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="GET" action="{{ route('search.index') }}">
+                    <div class="modal-body pt-0">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="q" placeholder="Cari berita atau galeri..." required>
+                            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     
     @stack('scripts')
 </body>
