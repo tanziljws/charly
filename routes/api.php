@@ -20,7 +20,7 @@ Route::get('/test', function () {
 });
 
 // API Routes untuk Gallery Sekolah
-Route::prefix('v1')->group(function () {
+Route::prefix('v1')->name('api.')->group(function () {
     
     // Kategori Berita Routes
     Route::apiResource('kategori-berita', KategoriBeritaController::class);

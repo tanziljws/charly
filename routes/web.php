@@ -38,9 +38,10 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         ->parameters(['kategori-berita' => 'kategori_berita']);
     
     // Berita Admin Routes (force parameter name to {berita} not {beritum})
-    Route::delete('berita/{berita}', [AdminBeritaController::class, 'destroy'])->name('berita.destroy');
     Route::resource('berita', AdminBeritaController::class)
-        ->parameters(['berita' => 'berita']);
+        ->parameters(['berita' => 'berita'])
+        ->except(['destroy']);
+    Route::delete('berita/{berita}', [AdminBeritaController::class, 'destroy'])->name('berita.destroy');
     
     // Gallery Admin Routes
     Route::resource('gallery', AdminGalleryController::class)
