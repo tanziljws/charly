@@ -1,19 +1,29 @@
 @extends('layouts.frontend')
 
-@section('title', 'Galeri - SMA MADESU 1')
-@section('description', 'Kumpulan foto dan galeri kegiatan SMA MADESU 1')
+@section('title', 'Galeri - SMKN 4 BOGOR')
+@section('description', 'Kumpulan foto dan galeri kegiatan SMKN 4 BOGOR')
+
+@push('styles')
+<style>
+    /* Hover animations for gallery */
+    .gallery-item { transition: transform .3s ease, box-shadow .3s ease; }
+    .gallery-item:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,.15); }
+    .gallery-image { transition: transform .6s ease; }
+    .gallery-item:hover .gallery-image { transform: scale(1.06); }
+    .gallery-overlay { transition: transform .35s ease; }
+</style>
+@endpush
 
 @section('content')
 <div class="container py-4">
     <!-- Page Header -->
-    <div class="row mb-4">
+    <div class="row mb-4 reveal">
         <div class="col-12">
-            <div class="card">
+            <div class="card contact-hero">
                 <div class="card-body text-center py-5">
-                    <h1 class="h2 mb-3">
-                        <i class="fas fa-images text-primary me-2"></i>Galeri SMA MADESU 1
-                    </h1>
-                    <p class="text-muted mb-0">Lihat momen-momen terbaik dari kegiatan dan aktivitas SMA MADESU 1</p>
+                    <i class="fas fa-images mb-3" style="font-size: 3rem;"></i>
+                    <h1 class="display-4 fw-bold mb-3">Galeri SMKN 4 BOGOR</h1>
+                    <p class="lead mb-0">Lihat momen-momen terbaik dari kegiatan dan aktivitas SMKN 4 BOGOR</p>
                 </div>
             </div>
         </div>
@@ -36,12 +46,30 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="col-12 mb-3 filter-advanced" data-initial-open="{{ request('kategori') ? '1' : '0' }}" style="display: none;">
+                            <label for="kategori" class="form-label">Kategori</label>
+                            <div class="row g-2">
+                                <div class="col-md-8">
+                                    <select class="form-select" id="kategori" name="kategori">
+                                        <option value="">Semua Kategori</option>
+                                        @foreach($kategoriOptions as $key => $label)
+                                        <option value="{{ $key }}" {{ request('kategori') == $key ? 'selected' : '' }}>{{ $label }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-4 d-grid d-md-block">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-check me-2"></i>Terapkan
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="button" class="btn btn-primary btn-toggle-filter">
                             <i class="fas fa-filter me-2"></i>Filter
                         </button>
-                        @if(request('search'))
+                        @if(request('search') || request('kategori'))
                         <a href="{{ route('gallery.index') }}" class="btn btn-outline-secondary">
                             <i class="fas fa-times me-2"></i>Reset Filter
                         </a>
@@ -51,10 +79,16 @@
             </div>
 
             <!-- Results Info -->
-            @if(request('search'))
+            @if(request('search') || request('kategori'))
             <div class="alert alert-info mb-4">
                 <i class="fas fa-info-circle me-2"></i>
-                Menampilkan {{ $gallery->total() }} galeri untuk pencarian "<strong>{{ request('search') }}</strong>"
+                Menampilkan {{ $gallery->total() }} galeri
+                @if(request('search'))
+                    untuk pencarian "<strong>{{ request('search') }}</strong>"
+                @endif
+                @if(request('kategori'))
+                    pada kategori "<strong>{{ $kategoriOptions[request('kategori')] ?? request('kategori') }}</strong>"
+                @endif
             </div>
             @endif
 
@@ -62,9 +96,9 @@
             @if($gallery->count() > 0)
             <div class="gallery-grid">
                 @foreach($gallery as $item)
-                <div class="gallery-item">
+                <div class="gallery-item reveal">
                     @if($item->gambar)
-                    <img src="{{ asset('storage/' . $item->gambar) }}" class="gallery-image" alt="{{ $item->judul }}">
+                    <img src="{{ asset('storage/' . $item->gambar) }}" class="gallery-image skeleton" alt="{{ $item->judul }}" loading="lazy" onload="this.classList.remove('skeleton')">
                     @else
                     <div class="gallery-image bg-light d-flex align-items-center justify-content-center">
                         <i class="fas fa-image text-muted" style="font-size: 3rem;"></i>
@@ -91,7 +125,7 @@
 
             <!-- Pagination -->
             <div class="d-flex justify-content-center mt-4">
-                {{ $gallery->appends(request()->query())->links() }}
+                {{ $gallery->appends(request()->query())->links('pagination::bootstrap-5') }}
             </div>
             @else
             <!-- No Results -->
@@ -108,3 +142,25 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    (function() {
+        var container = document.currentScript.closest('body');
+        var filterSection = container.querySelector('.filter-advanced');
+        var toggleBtn = container.querySelector('.btn-toggle-filter');
+        if (!filterSection || !toggleBtn) return;
+
+        function setVisible(visible) {
+            filterSection.style.display = visible ? '' : 'none';
+        }
+
+        setVisible(filterSection.getAttribute('data-initial-open') === '1');
+
+        toggleBtn.addEventListener('click', function() {
+            var isHidden = filterSection.style.display === 'none' || filterSection.style.display === '' && getComputedStyle(filterSection).display === 'none';
+            setVisible(isHidden);
+        });
+    })();
+    </script>
+@endpush

@@ -12,7 +12,7 @@ class BeritaController extends Controller
     public function index(Request $request)
     {
         $query = Berita::with(['kategoriBerita', 'user'])
-            ->published()
+            ->published() // Only show published berita
             ->orderBy('published_at', 'desc');
 
         // Filter by category if provided
@@ -31,7 +31,8 @@ class BeritaController extends Controller
             });
         }
 
-        $berita = $query->paginate(9);
+        // Paginate 6 items per page as requested
+        $berita = $query->paginate(6);
 
         // Get all categories for filter
         $kategoriBerita = KategoriBerita::where('is_active', true)

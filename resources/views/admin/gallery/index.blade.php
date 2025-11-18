@@ -296,9 +296,19 @@ document.addEventListener('DOMContentLoaded', function() {
             confirmVariant: 'danger',
             icon: 'trash'
         }) : Promise.resolve(confirm('Yakin ingin menghapus gallery ini?')));
+        
         if (!confirmed) return;
 
         try {
+            // Close any open modals first
+            const modalEl = document.getElementById('globalConfirmModal');
+            if (modalEl) {
+                const bsModal = bootstrap.Modal.getInstance(modalEl);
+                if (bsModal) {
+                    bsModal.hide();
+                }
+            }
+
             const response = await fetch(`${apiUrl}/gallery/${id}`, {
                 method: 'DELETE',
                 headers: {
@@ -309,13 +319,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (response.ok) {
                 loadGalleryData();
-                (window.showToast ? window.showToast('Gallery berhasil dihapus', 'SMA MADESU 1', 'success') : showAlert('Gallery berhasil dihapus', 'success'));
+                (window.showToast ? window.showToast('Gallery berhasil dihapus', 'SMKN 4 BOGOR', 'success') : showAlert('Gallery berhasil dihapus', 'success'));
             } else {
-                (window.showToast ? window.showToast('Gagal menghapus gallery', 'SMA MADESU 1', 'danger') : showAlert('Gagal menghapus gallery', 'danger'));
+                (window.showToast ? window.showToast('Gagal menghapus gallery', 'SMKN 4 BOGOR', 'danger') : showAlert('Gagal menghapus gallery', 'danger'));
             }
         } catch (error) {
             console.error('Error deleting gallery:', error);
-            (window.showToast ? window.showToast('Terjadi kesalahan', 'SMA MADESU 1', 'danger') : showAlert('Terjadi kesalahan', 'danger'));
+            (window.showToast ? window.showToast('Terjadi kesalahan', 'SMKN 4 BOGOR', 'danger') : showAlert('Terjadi kesalahan', 'danger'));
         }
     };
     

@@ -114,22 +114,51 @@ class GalleryController extends Controller
             'urutan' => 'nullable|integer|min:0',
             'tanggal_foto' => 'required|date',
             'tags' => 'nullable|string'
+        ], [
+            'gambar.image' => 'File harus berupa gambar',
+            'gambar.mimes' => 'Format gambar harus jpeg, png, jpg, atau gif',
+            'gambar.max' => 'Ukuran gambar maksimal 5MB'
         ]);
 
         $data = $request->except(['gambar']);
 
+        // Handle is_active checkbox
+        $data['is_active'] = $request->has('is_active') ? 1 : 0;
+
         // Convert tags string to array
         if ($request->tags) {
             $data['tags'] = array_map('trim', explode(',', $request->tags));
+        } else {
+            $data['tags'] = null;
+        }
+
+        // Generate slug if not provided
+        if (empty($data['slug'])) {
+            $data['slug'] = \Str::slug($data['judul']);
         }
 
         // Upload gambar baru jika ada
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama
-            if ($gallery->gambar) {
-                Storage::disk('public')->delete($gallery->gambar);
+            $file = $request->file('gambar');
+            
+            // Validasi file
+            if ($file->isValid()) {
+                // Hapus gambar lama jika ada
+                if ($gallery->gambar && Storage::disk('public')->exists($gallery->gambar)) {
+                    Storage::disk('public')->delete($gallery->gambar);
+                }
+                
+                // Upload gambar baru
+                $filename = time() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+                $data['gambar'] = $file->storeAs('gallery', $filename, 'public');
+                
+                // Log untuk debugging
+                \Log::info('Gallery image uploaded: ' . $data['gambar']);
+            } else {
+                return redirect()->back()
+                    ->withErrors(['gambar' => 'File gambar tidak valid'])
+                    ->withInput();
             }
-            $data['gambar'] = $request->file('gambar')->store('gallery', 'public');
         }
 
         $gallery->update($data);

@@ -10,7 +10,8 @@ class GalleryController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Gallery::active()->ordered();
+        // Show all gallery items regardless of active status
+        $query = Gallery::query()->ordered();
 
         // Filter by category if provided
         if ($request->has('kategori') && $request->kategori) {
@@ -25,7 +26,8 @@ class GalleryController extends Controller
             });
         }
 
-        $gallery = $query->paginate(12);
+        // Paginate 8 items per page as requested
+        $gallery = $query->paginate(8);
 
         // Get category options
         $kategoriOptions = Gallery::getKategoriOptions();

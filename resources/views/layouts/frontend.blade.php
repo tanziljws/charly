@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'SMA MADESU 1')</title>
-    <meta name="description" content="@yield('description', 'SMA MADESU 1 - Sekolah Menengah Atas yang berkomitmen memberikan pendidikan berkualitas dan membentuk karakter siswa yang unggul')">
+    <title>@yield('title', 'SMKN 4 BOGOR')</title>
+    <meta name="description" content="@yield('description', 'SMKN 4 BOGOR - Sekolah Menengah Kejuruan yang berkomitmen memberikan pendidikan berkualitas dan membentuk karakter siswa yang unggul')">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -83,6 +83,14 @@
             background: var(--bg-secondary);
             color: var(--accent-color) !important;
         }
+
+        /* Nav hover underline */
+        .navbar-nav .nav-link { position: relative; }
+        .navbar-nav .nav-link::after {
+            content: ""; position: absolute; left: 1rem; right: 1rem; bottom: .5rem;
+            height: 2px; background: var(--accent-color); transform: scaleX(0); transform-origin: left; transition: transform .25s ease;
+        }
+        .navbar-nav .nav-link:hover::after, .navbar-nav .nav-link.active::after { transform: scaleX(1); }
 
         /* Accessibility Controls (removed) */
 
@@ -237,6 +245,20 @@
             object-fit: cover;
         }
 
+        /* Image skeleton */
+        .skeleton { position: relative; background: #e5e7eb; overflow: hidden; }
+        .skeleton::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(229,231,235,0) 0%, rgba(255,255,255,.6) 50%, rgba(229,231,235,0) 100%); transform: translateX(-100%); animation: shimmer 1.2s infinite; }
+        @keyframes shimmer { to { transform: translateX(100%); } }
+
+        /* Card skeleton */
+        .card-skeleton { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
+        .card-skeleton .skeleton-header { height: 200px; background: #e5e7eb; }
+        .card-skeleton .skeleton-body { padding: 1.5rem; }
+        .card-skeleton .skeleton-title { height: 1.5rem; background: #e5e7eb; border-radius: 4px; margin-bottom: 0.75rem; width: 80%; }
+        .card-skeleton .skeleton-text { height: 1rem; background: #e5e7eb; border-radius: 4px; margin-bottom: 0.5rem; }
+        .card-skeleton .skeleton-text:nth-child(3) { width: 60%; }
+        .card-skeleton .skeleton-meta { height: 0.875rem; background: #e5e7eb; border-radius: 4px; width: 40%; margin-top: 1rem; }
+
         .gallery-overlay {
             position: absolute;
             bottom: 0;
@@ -285,6 +307,10 @@
         .footer a:hover {
             color: white;
         }
+
+        /* Subtle page transition */
+        body.page-fade { opacity: 0; }
+        body.page-fade-out { opacity: 0; transition: opacity .18s ease; }
 
         /* Pagination */
         .pagination .page-link {
@@ -353,6 +379,69 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* Extracurricular Modal Styles */
+        .ekskul-card {
+            transition: all 0.3s ease;
+        }
+
+        .ekskul-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .modal-content {
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modal-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .modal-body h6 {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .modal-body .card {
+            transition: all 0.3s ease;
+        }
+
+        .modal-body .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .modal-footer .btn {
+            transition: all 0.3s ease;
+        }
+
+        .modal-footer .btn:hover {
+            transform: translateY(-1px);
+        }
     </style>
     
     @stack('styles')
@@ -363,7 +452,7 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('home') }}">
-                    <i class="fas fa-graduation-cap me-2"></i>SMA MADESU 1
+                    <i class="fas fa-graduation-cap me-2"></i>SMKN 4 BOGOR
                 </a>
                 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -392,9 +481,6 @@
                                 <i class="fas fa-envelope me-1"></i>Kontak
                             </a>
                         </li>
-                        <li class="nav-item d-flex align-items-center ms-3">
-                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#globalSearchModal"><i class="fas fa-search me-1"></i>Cari</button>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -419,8 +505,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-4">
-                    <h5><i class="fas fa-graduation-cap me-2"></i>SMA MADESU 1</h5>
-                    <p class="mb-3">Sekolah Menengah Atas yang berkomitmen memberikan pendidikan berkualitas dan membentuk karakter siswa yang unggul, berakhlak mulia, dan siap menghadapi tantangan masa depan.</p>
+                    <h5><i class="fas fa-graduation-cap me-2"></i>SMKN 4 BOGOR</h5>
+                    <p class="mb-3">Sekolah Menengah Kejuruan yang berkomitmen memberikan pendidikan berkualitas dan membentuk karakter siswa yang unggul, berakhlak mulia, dan siap menghadapi tantangan masa depan.</p>
                 </div>
                 <div class="col-md-4 mb-4">
                     <h5>Menu Utama</h5>
@@ -443,10 +529,7 @@
             <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <p class="mb-0">&copy; {{ date('Y') }} SMA MADESU 1. All rights reserved.</p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <p class="mb-0">Dibuat dengan <i class="fas fa-heart text-danger"></i> untuk pendidikan</p>
+                    <p class="mb-0">&copy; {{ date('Y') }} SMKN 4 BOGOR. All rights reserved.</p>
                 </div>
             </div>
         </div>
@@ -477,5 +560,111 @@
     </div>
     
     @stack('scripts')
+    <script>
+        // Reveal on scroll helper using IntersectionObserver
+        (function() {
+            const elements = document.querySelectorAll('.reveal');
+            if (!elements.length) return;
+            if (!('IntersectionObserver' in window)) {
+                elements.forEach(function(el){ el.classList.add('visible'); });
+                return;
+            }
+            const io = new IntersectionObserver(function(entries){
+                entries.forEach(function(entry){
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            elements.forEach(function(el){ io.observe(el); });
+        })();
+
+        // Page fade-in/out transitions for internal navigation
+        (function(){
+            document.body.classList.add('page-fade');
+            requestAnimationFrame(function(){ document.body.classList.remove('page-fade'); });
+            document.addEventListener('click', function(e){
+                const a = e.target.closest('a');
+                if (!a) return;
+                const href = a.getAttribute('href');
+                const target = a.getAttribute('target');
+                if (!href || href.startsWith('#') || target === '_blank') return;
+                if (a.host !== location.host) return; // external
+                e.preventDefault();
+                document.body.classList.add('page-fade-out');
+                setTimeout(function(){ location.href = href; }, 150);
+            });
+        })();
+
+        // Smooth anchor scrolling with header offset
+        (function(){
+            document.addEventListener('click', function(e){
+                const a = e.target.closest('a[href^="#"]');
+                if (!a) return;
+                const id = a.getAttribute('href').slice(1);
+                const el = document.getElementById(id);
+                if (!el) return;
+                e.preventDefault();
+                const y = el.getBoundingClientRect().top + window.pageYOffset - 72;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            });
+        })();
+
+        // Count-up utility
+        (function(){
+            const els = document.querySelectorAll('[data-count]');
+            if (!els.length) return;
+            const io = new IntersectionObserver((entries)=>{
+                entries.forEach(entry=>{
+                    if (!entry.isIntersecting) return;
+                    const el = entry.target;
+                    const target = parseInt(el.getAttribute('data-count'), 10) || 0;
+                    let current = 0; const dur = 1200; const start = performance.now();
+                    function tick(t){
+                        const p = Math.min(1, (t - start) / dur);
+                        current = Math.floor(target * (0.1 + 0.9 * p));
+                        el.textContent = current.toLocaleString();
+                        if (p < 1) requestAnimationFrame(tick);
+                    }
+                    requestAnimationFrame(tick);
+                    io.unobserve(el);
+                });
+            }, { threshold: 0.4 });
+            els.forEach(el=>io.observe(el));
+        })();
+
+        // Scroll to top button
+        (function(){
+            const btn = document.createElement('button');
+            btn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+            btn.className = 'scroll-to-top';
+            btn.setAttribute('aria-label', 'Scroll to top');
+            btn.style.cssText = `
+                position: fixed; bottom: 2rem; right: 2rem; z-index: 1000;
+                width: 3rem; height: 3rem; border-radius: 50%;
+                background: linear-gradient(135deg, #0ea5e9, #0f172a);
+                color: white; border: none; cursor: pointer;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                opacity: 0; transform: translateY(20px);
+                transition: opacity 0.3s ease, transform 0.3s ease;
+                display: flex; align-items: center; justify-content: center;
+            `;
+            document.body.appendChild(btn);
+
+            function toggle() {
+                const show = window.scrollY > 300;
+                btn.style.opacity = show ? '1' : '0';
+                btn.style.transform = show ? 'translateY(0)' : 'translateY(20px)';
+            }
+
+            btn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            window.addEventListener('scroll', toggle, { passive: true });
+            toggle();
+        })();
+    </script>
 </body>
 </html>

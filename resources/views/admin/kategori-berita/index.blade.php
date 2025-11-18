@@ -241,14 +241,14 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (response.ok) {
                 loadKategoriData();
-                (window.showToast ? window.showToast('Kategori berhasil dihapus', 'SMA MADESU 1', 'success') : showAlert('Kategori berhasil dihapus', 'success'));
+                (window.showToast ? window.showToast('Kategori berhasil dihapus', 'SMKN 4 BOGOR', 'success') : showAlert('Kategori berhasil dihapus', 'success'));
             } else {
                 const errorData = await response.json();
-                (window.showToast ? window.showToast(errorData.message || 'Gagal menghapus kategori', 'SMA MADESU 1', 'danger') : showAlert(errorData.message || 'Gagal menghapus kategori', 'danger'));
+                (window.showToast ? window.showToast(errorData.message || 'Gagal menghapus kategori', 'SMKN 4 BOGOR', 'danger') : showAlert(errorData.message || 'Gagal menghapus kategori', 'danger'));
             }
         } catch (error) {
             console.error('Error deleting kategori:', error);
-            (window.showToast ? window.showToast('Terjadi kesalahan', 'SMA MADESU 1', 'danger') : showAlert('Terjadi kesalahan', 'danger'));
+            (window.showToast ? window.showToast('Terjadi kesalahan', 'SMKN 4 BOGOR', 'danger') : showAlert('Terjadi kesalahan', 'danger'));
         }
     };
     

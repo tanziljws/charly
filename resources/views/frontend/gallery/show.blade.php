@@ -31,7 +31,7 @@
     <div class="row">
         <!-- Main Content -->
         <div class="col-12">
-            <div class="card">
+            <div class="card reveal">
                 <div class="card-body">
                     <!-- Gallery Header -->
                     <div class="mb-4">
@@ -55,9 +55,9 @@
 
                     <!-- Gallery Image -->
                     @if($gallery->gambar)
-                    <div class="mb-4">
+                    <div class="mb-4 reveal">
                         <img src="{{ asset('storage/' . $gallery->gambar) }}" 
-                             class="img-fluid rounded shadow" 
+                             class="img-fluid rounded shadow skeleton" loading="lazy" onload="this.classList.remove('skeleton')"
                              alt="{{ $gallery->judul }}"
                              style="width: 100%; max-height: 500px; object-fit: cover;">
                     </div>
@@ -140,7 +140,7 @@
 
             <!-- Related Gallery -->
             @if($relatedGallery->count() > 0)
-            <div class="mt-5">
+            <div class="mt-5 reveal">
                 <h3 class="h4 mb-4">
                     <i class="fas fa-images me-2"></i>Galeri Terkait
                 </h3>
@@ -148,7 +148,7 @@
                     @foreach($relatedGallery as $related)
                     <div class="gallery-item">
                         @if($related->gambar)
-                        <img src="{{ asset('storage/' . $related->gambar) }}" class="gallery-image" alt="{{ $related->judul }}">
+                        <img src="{{ asset('storage/' . $related->gambar) }}" class="gallery-image" alt="{{ $related->judul }}" loading="lazy">
                         @else
                         <div class="gallery-image bg-light d-flex align-items-center justify-content-center">
                             <i class="fas fa-image text-muted" style="font-size: 2rem;"></i>

@@ -352,8 +352,21 @@ document.addEventListener('DOMContentLoaded', function() {
             confirmVariant: 'danger',
             icon: 'trash'
         });
+        
         if (ok) {
-            e.target.submit();
+            // Close any open modals first
+            const modalEl = document.getElementById('globalConfirmModal');
+            if (modalEl) {
+                const bsModal = bootstrap.Modal.getInstance(modalEl);
+                if (bsModal) {
+                    bsModal.hide();
+                }
+            }
+            
+            // Wait a bit for modal to close, then submit
+            setTimeout(() => {
+                e.target.submit();
+            }, 300);
         }
         return false;
     }

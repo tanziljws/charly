@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin Panel') - SMA MADESU 1</title>
+    <title>@yield('title', 'Admin Panel') - SMKN 4 BOGOR</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -256,98 +256,201 @@
             color: var(--text-primary);
         }
 
-        /* Stats Cards */
-        .stats-card {
+        /* Modern Stats Cards */
+        .stats-card-modern {
             background: var(--bg-primary);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: var(--shadow-light);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             position: relative;
-            overflow: hidden;
         }
 
-        .stats-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: #111827;
+        .stats-card-modern:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-1px);
         }
 
-        .stats-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-medium);
-            border-color: var(--bg-dark);
-        }
-
-        .stats-card-primary::before {
-            background: #111827;
-        }
-
-        .stats-card-success::before {
-            background: #22c55e;
-        }
-
-        .stats-card-warning::before {
-            background: #f59e0b;
-        }
-
-        .stats-card-info::before {
-            background: #6b7280;
-        }
-
-        .stats-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem;
-        }
-
-        .stats-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            line-height: 1;
-            margin-bottom: 0.5rem;
-        }
-
-        .stats-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
+        .stats-icon-modern {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
-            color: var(--accent-color);
-            background: var(--bg-dark);
+            font-size: 1.1rem;
+            color: #6b7280;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        .stats-number-modern {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 0.25rem;
+        }
+
+        .stats-label-modern {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stats-sub-modern {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Modern Cards */
+        .card-modern {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             border: 1px solid var(--border-color);
+            overflow: hidden;
         }
 
-        .stats-card-primary .stats-icon {
-            background: #111827;
-            color: #ffffff;
+        .card-header-modern {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            justify-content: between;
+            align-items: center;
         }
 
-        .stats-card-success .stats-icon {
-            background: #22c55e;
-            color: #ffffff;
+        .card-body-modern {
+            padding: 1.5rem;
         }
 
-        .stats-card-warning .stats-icon {
-            background: #f59e0b;
-            color: #ffffff;
+        .btn-link-modern {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
         }
 
-        .stats-card-info .stats-icon {
-            background: #6b7280;
-            color: #ffffff;
+        .btn-link-modern:hover {
+            color: var(--text-primary);
+        }
+
+        /* Modern Gallery Cards */
+        .gallery-card-modern {
+            background: var(--bg-primary);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        .gallery-card-modern:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .gallery-image-modern {
+            position: relative;
+            overflow: hidden;
+            height: 140px;
+        }
+
+        .gallery-image-modern img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.2s ease;
+        }
+
+        .gallery-card-modern:hover .gallery-image-modern img {
+            transform: scale(1.02);
+        }
+
+        .gallery-content-modern {
+            padding: 1rem;
+        }
+
+        .gallery-title-modern {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        /* Compact Stats */
+        .stats-icon-compact {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #6b7280;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        .stats-number-compact {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 0.125rem;
+        }
+
+        .stats-label-compact {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Card Header Improvements */
+        .card-header-modern {
+            padding: 1.25rem 1.5rem 1rem 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            background: transparent;
+        }
+
+        .card-body-modern {
+            padding: 1rem 1.5rem 1.5rem 1.5rem;
+        }
+
+        /* Loading States */
+        .spinner-border-sm {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        /* Button Improvements */
+        .btn-outline-primary:hover {
+            background: #0d6efd;
+            border-color: #0d6efd;
+            color: white;
+        }
+
+        .btn-outline-success:hover {
+            background: #198754;
+            border-color: #198754;
+            color: white;
+        }
+
+        .btn-outline-info:hover {
+            background: #0dcaf0;
+            border-color: #0dcaf0;
+            color: white;
+        }
+
+        .btn-outline-warning:hover {
+            background: #ffc107;
+            border-color: #ffc107;
+            color: black;
         }
 
         .btn-primary {
@@ -687,7 +790,7 @@
                 <div class="sidebar-brand">
                     <h4>
                         <i class="fas fa-school me-2"></i>
-                        SMA MADESU 1
+                        SMKN 4 BOGOR
                     </h4>
                 </div>
                     
@@ -829,25 +932,54 @@
                 const msgEl = document.getElementById('gc-message');
                 const btnEl = document.getElementById('gc-confirm-btn');
                 const headEl = document.getElementById('gc-head');
+                
+                // Clear previous content
                 titleEl.innerHTML = `<i class="fas fa-${icon} me-2"></i>${title}`;
                 msgEl.textContent = message;
-                btnEl.textContent = ` ${confirmText}`;
+                btnEl.innerHTML = `<i class="fas fa-check me-2"></i>${confirmText}`;
                 btnEl.className = `btn btn-${confirmVariant}`;
-                btnEl.insertAdjacentHTML('afterbegin', '<i class="fas fa-check me-2"></i>');
                 headEl.className = `modal-header border-0 bg-${confirmVariant} bg-opacity-10`;
 
-                const bsModal = new bootstrap.Modal(modalEl);
-                const onConfirm = () => { cleanup(); resolve(true); };
-                const onHidden = () => { cleanup(); resolve(false); };
-                function cleanup(){ btnEl.removeEventListener('click', onConfirm); modalEl.removeEventListener('hidden.bs.modal', onHidden); }
+                const bsModal = new bootstrap.Modal(modalEl, {
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                
+                const onConfirm = () => { 
+                    cleanup(); 
+                    bsModal.hide();
+                    resolve(true); 
+                };
+                const onCancel = () => { 
+                    cleanup(); 
+                    bsModal.hide();
+                    resolve(false); 
+                };
+                const onHidden = () => { 
+                    cleanup(); 
+                };
+                
+                function cleanup() { 
+                    btnEl.removeEventListener('click', onConfirm); 
+                    modalEl.removeEventListener('hidden.bs.modal', onHidden);
+                    // Remove any existing cancel listeners
+                    const cancelBtns = modalEl.querySelectorAll('[data-bs-dismiss="modal"]');
+                    cancelBtns.forEach(btn => btn.removeEventListener('click', onCancel));
+                }
+                
                 btnEl.addEventListener('click', onConfirm);
                 modalEl.addEventListener('hidden.bs.modal', onHidden, { once: true });
+                
+                // Add cancel listeners
+                const cancelBtns = modalEl.querySelectorAll('[data-bs-dismiss="modal"]');
+                cancelBtns.forEach(btn => btn.addEventListener('click', onCancel));
+                
                 bsModal.show();
             });
         }
 
         // Global Toast Helper
-        window.showToast = function(message = 'Halo Admin!', title = 'SMA MADESU 1', variant = 'primary') {
+        window.showToast = function(message = 'Halo Admin!', title = 'SMKN 4 BOGOR', variant = 'primary') {
             const toastEl = document.getElementById('globalToast');
             const body = document.getElementById('gt-body');
             toastEl.className = `toast align-items-center text-bg-${variant} border-0`;

@@ -5,6 +5,8 @@
 
 @section('content')
 <div class="container py-4">
+    <!-- Scroll progress bar -->
+    <div id="readProgress" style="position:sticky;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#0ea5e9,#0f172a);transform:scaleX(0);transform-origin:left;z-index:1020"></div>
     <!-- Breadcrumb -->
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
@@ -33,7 +35,7 @@
     <div class="row">
         <!-- Main Content -->
         <div class="col-12">
-            <article class="card">
+            <article class="card reveal">
                 <!-- Article Header -->
                 <div class="card-body">
                     <div class="mb-3">
@@ -57,7 +59,7 @@
                             </div>
                             <div class="me-4">
                                 <i class="fas fa-calendar me-1"></i>
-                                <span>{{ $berita->published_at->format('d M Y, H:i') }}</span>
+                                <span>{{ $berita->published_at ? $berita->published_at->format('d M Y, H:i') : 'Belum dipublikasi' }}</span>
                             </div>
                             <div class="me-4">
                                 <i class="fas fa-eye me-1"></i>
@@ -68,9 +70,9 @@
 
                     <!-- Featured Image -->
                     @if($berita->gambar_utama)
-                    <div class="mb-4">
+                    <div class="mb-4 reveal">
                         <img src="{{ asset('storage/' . $berita->gambar_utama) }}" 
-                             class="img-fluid rounded" 
+                             class="img-fluid rounded skeleton" loading="lazy" onload="this.classList.remove('skeleton')"
                              alt="{{ $berita->judul }}"
                              style="width: 100%; max-height: 400px; object-fit: cover;">
                     </div>
@@ -120,19 +122,19 @@
 
             <!-- Related News -->
             @if($relatedBerita->count() > 0)
-            <div class="mt-5">
+            <div class="mt-5 reveal">
                 <h3 class="h4 mb-4">
                     <i class="fas fa-newspaper me-2"></i>Berita Terkait
                 </h3>
-                <div class="row">
+                <div class="row g-3">
                     @foreach($relatedBerita as $related)
-                    <div class="col-md-6 mb-3">
-                        <div class="card h-100">
+                    <div class="col-md-6">
+                        <div class="card h-100 news-card">
                             <div class="row g-0">
                                 <div class="col-4">
                                     @if($related->gambar_utama)
                                     <img src="{{ asset('storage/' . $related->gambar_utama) }}" 
-                                         class="img-fluid rounded-start h-100" 
+                                         class="img-fluid rounded-start h-100" loading="lazy"
                                          alt="{{ $related->judul }}"
                                          style="object-fit: cover;">
                                     @else
@@ -150,7 +152,7 @@
                                             </a>
                                         </h6>
                                         <p class="card-text small text-muted mb-2">
-                                            {{ $related->published_at->format('d M Y') }}
+                                            {{ $related->published_at ? $related->published_at->format('d M Y') : 'Belum dipublikasi' }}
                                         </p>
                                         <p class="card-text small">{{ Str::limit($related->excerpt, 80) }}</p>
                                     </div>
@@ -217,3 +219,23 @@
 </style>
 @endpush
 @endsection
+
+@push('scripts')
+<script>
+    (function(){
+        const bar = document.getElementById('readProgress');
+        if (!bar) return;
+        function update(){
+            const el = document.querySelector('.article-content');
+            if (!el) return;
+            const total = el.scrollHeight - window.innerHeight + el.getBoundingClientRect().top;
+            const scrolled = Math.min(total, window.scrollY);
+            const ratio = total > 0 ? scrolled / total : 0;
+            bar.style.transform = 'scaleX(' + ratio + ')';
+        }
+        window.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+    })();
+</script>
+@endpush

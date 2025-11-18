@@ -4,119 +4,122 @@
 @section('page-title', 'Dashboard')
 
 @section('content')
-<!-- Welcome Section removed for cleaner UI -->
-
-<!-- Statistics Cards -->
-<div class="row mb-4" id="stats-cards">
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="stats-card stats-card-primary">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <div class="stats-label">Total Berita</div>
-                    <div class="stats-number" id="total-berita">-</div>
-                    <small class="opacity-75">
-                        <i class="fas fa-arrow-up me-1"></i>
-                        <span id="berita-published">-</span> Published
-                    </small>
-                </div>
-                <div class="stats-icon">
-                    <i class="fas fa-newspaper"></i>
-                </div>
+<!-- Header Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-1 text-dark fw-bold">Dashboard</h4>
+                <p class="text-muted mb-0">Selamat datang di panel admin SMKN 4 BOGOR</p>
+            </div>
+            <div class="text-muted small">
+                <i class="fas fa-calendar-alt me-1"></i>
+                {{ date('d M Y') }}
             </div>
         </div>
     </div>
+</div>
 
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="stats-card stats-card-success">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <div class="stats-label">Gallery Aktif</div>
-                    <div class="stats-number" id="gallery-active">-</div>
-                    <small class="opacity-75">
-                        <i class="fas fa-images me-1"></i>
-                        dari <span id="total-gallery">-</span> total
-                    </small>
-                </div>
-                <div class="stats-icon">
-                    <i class="fas fa-images"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="stats-card stats-card-warning">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <div class="stats-label">Total Views</div>
-                    <div class="stats-number" id="total-views">-</div>
-                    <small class="opacity-75">
-                        <i class="fas fa-eye me-1"></i>
-                        Semua berita
-                    </small>
-                </div>
-                <div class="stats-icon">
-                    <i class="fas fa-eye"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="stats-card stats-card-info">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <div class="stats-label">Kategori</div>
-                    <div class="stats-number" id="total-kategori">-</div>
-                    <small class="opacity-75">
-                        <i class="fas fa-tags me-1"></i>
-                        Kategori berita
-                    </small>
-                </div>
-                <div class="stats-icon">
-                    <i class="fas fa-tags"></i>
+<!-- Statistics Overview -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card-modern">
+            <div class="card-body-modern">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mb-3 mb-lg-0">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon-compact me-3">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            <div>
+                                <div class="stats-number-compact" id="total-berita">-</div>
+                                <div class="stats-label-compact">Berita</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3 mb-lg-0">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon-compact me-3">
+                                <i class="fas fa-images"></i>
+                            </div>
+                            <div>
+                                <div class="stats-number-compact" id="gallery-active">-</div>
+                                <div class="stats-label-compact">Gallery</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3 mb-md-0">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon-compact me-3">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div>
+                                <div class="stats-number-compact" id="total-views">-</div>
+                                <div class="stats-label-compact">Views</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="d-flex align-items-center">
+                            <div class="stats-icon-compact me-3">
+                                <i class="fas fa-tags"></i>
+                            </div>
+                            <div>
+                                <div class="stats-number-compact" id="total-kategori">-</div>
+                                <div class="stats-label-compact">Kategori</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <!-- Berita Terbaru -->
-    <div class="col-lg-8 mb-4">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">
-                    <i class="fas fa-newspaper me-2"></i>
+<!-- Content Grid -->
+<div class="row mb-4">
+    <div class="col-lg-6 mb-4">
+        <div class="card-modern h-100">
+            <div class="card-header-modern d-flex justify-content-between align-items-center">
+                <h5 class="card-title-modern mb-0">
+                    <i class="fas fa-newspaper me-2 text-primary"></i>
                     Berita Terbaru
                 </h5>
                 <a href="{{ route('admin.berita.index') }}" class="btn btn-sm btn-outline-primary">
-                    Lihat Semua
+                    <i class="fas fa-external-link-alt me-1"></i>Kelola
                 </a>
             </div>
-            <div class="card-body p-0" id="berita-terbaru-container">
-                <div class="text-center py-4">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+            <div class="card-body-modern">
+                <div id="berita-terbaru-container">
+                    <div class="text-center py-5">
+                        <div class="spinner-border spinner-border-sm text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="text-muted mt-3 mb-0 small">Memuat berita terbaru...</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Statistik Kategori -->
-    <div class="col-lg-4 mb-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0">
-                    <i class="fas fa-chart-pie me-2"></i>
-                    Statistik Kategori
+    
+    <div class="col-lg-6 mb-4">
+        <div class="card-modern h-100">
+            <div class="card-header-modern d-flex justify-content-between align-items-center">
+                <h5 class="card-title-modern mb-0">
+                    <i class="fas fa-images me-2 text-success"></i>
+                    Galeri Terbaru
                 </h5>
+                <a href="{{ route('admin.gallery.index') }}" class="btn btn-sm btn-outline-success">
+                    <i class="fas fa-external-link-alt me-1"></i>Kelola
+                </a>
             </div>
-            <div class="card-body" id="kategori-stats-container">
-                <div class="text-center py-3">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+            <div class="card-body-modern">
+                <div id="gallery-terbaru-container">
+                    <div class="text-center py-5">
+                        <div class="spinner-border spinner-border-sm text-success" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="text-muted mt-3 mb-0 small">Memuat galeri terbaru...</p>
                     </div>
                 </div>
             </div>
@@ -124,42 +127,44 @@
     </div>
 </div>
 
+<!-- Bottom Row -->
 <div class="row">
-    <!-- Gallery Terbaru -->
     <div class="col-lg-8 mb-4">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">
-                    <i class="fas fa-images me-2"></i>
-                    Galeri Terbaru
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <h5 class="card-title-modern mb-0">
+                    <i class="fas fa-tags me-2 text-info"></i>
+                    Statistik Kategori
                 </h5>
-                <a href="{{ route('admin.gallery.index') }}" class="btn btn-sm btn-outline-primary">
-                    Lihat Semua
-                </a>
             </div>
-            <div class="card-body" id="gallery-terbaru-container">
-                <div class="text-center py-4">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+            <div class="card-body-modern">
+                <div id="kategori-stats-container">
+                    <div class="text-center py-5">
+                        <div class="spinner-border spinner-border-sm text-info" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="text-muted mt-3 mb-0 small">Memuat statistik kategori...</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Berita Populer -->
+    
     <div class="col-lg-4 mb-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0">
-                    <i class="fas fa-fire me-2"></i>
+        <div class="card-modern">
+            <div class="card-header-modern">
+                <h5 class="card-title-modern mb-0">
+                    <i class="fas fa-fire me-2 text-warning"></i>
                     Berita Populer
                 </h5>
             </div>
-            <div class="card-body" id="berita-populer-container">
-                <div class="text-center py-3">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+            <div class="card-body-modern">
+                <div id="berita-populer-container">
+                    <div class="text-center py-5">
+                        <div class="spinner-border spinner-border-sm text-warning" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="text-muted mt-3 mb-0 small">Memuat berita populer...</p>
                     </div>
                 </div>
             </div>
@@ -204,15 +209,25 @@ document.addEventListener('DOMContentLoaded', function() {
     
     async function loadStats() {
         try {
+            console.log('Loading stats...');
+            
             const [beritaRes, galleryRes, kategoriRes] = await Promise.all([
                 fetch(`${apiUrl}/berita`),
                 fetch(`${apiUrl}/gallery`),
                 fetch(`${apiUrl}/kategori-berita`)
             ]);
             
+            console.log('API responses:', {
+                berita: beritaRes.status,
+                gallery: galleryRes.status,
+                kategori: kategoriRes.status
+            });
+            
             const beritaData = await beritaRes.json();
             const galleryData = await galleryRes.json();
             const kategoriData = await kategoriRes.json();
+            
+            console.log('API data:', { beritaData, galleryData, kategoriData });
             
             // Update stats
             const totalBerita = beritaData.data ? beritaData.data.length : 0;
@@ -222,15 +237,45 @@ document.addEventListener('DOMContentLoaded', function() {
             const totalViews = beritaData.data ? beritaData.data.reduce((sum, b) => sum + (b.views || 0), 0) : 0;
             const totalKategori = kategoriData.data ? kategoriData.data.length : 0;
             
-            document.getElementById('total-berita').textContent = totalBerita;
-            document.getElementById('berita-published').textContent = beritaPublished;
-            document.getElementById('total-gallery').textContent = totalGallery;
-            document.getElementById('gallery-active').textContent = galleryActive;
-            document.getElementById('total-views').textContent = totalViews.toLocaleString();
-            document.getElementById('total-kategori').textContent = totalKategori;
+            console.log('Calculated stats:', {
+                totalBerita, beritaPublished, totalGallery, galleryActive, totalViews, totalKategori
+            });
+            
+            // Update DOM elements
+            const elements = {
+                'total-berita': totalBerita,
+                'gallery-active': totalGallery,
+                'total-views': totalViews.toLocaleString(),
+                'total-kategori': totalKategori
+            };
+            
+            Object.entries(elements).forEach(([id, value]) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = value;
+                    console.log(`Updated ${id}: ${value}`);
+                } else {
+                    console.error(`Element not found: ${id}`);
+                }
+            });
             
         } catch (error) {
             console.error('Error loading stats:', error);
+            
+            // Set fallback values
+            const fallbackElements = {
+                'total-berita': '0',
+                'gallery-active': '0', 
+                'total-views': '0',
+                'total-kategori': '0'
+            };
+            
+            Object.entries(fallbackElements).forEach(([id, value]) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.textContent = value;
+                }
+            });
         }
     }
     
@@ -246,35 +291,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 data.data.forEach(berita => {
                     const statusBadge = getStatusBadge(berita.status);
-                    const featuredBadge = berita.is_featured ? '<span class="badge bg-warning rounded-pill ms-1">Featured</span>' : '';
                     
                     html += `
-                        <div class="list-group-item border-0 py-3">
-                            <div class="row align-items-center">
-                                <div class="col-md-6">
-                                    <h6 class="mb-1">
+                        <div class="border-0 py-3 border-bottom" style="border-color: #f1f5f9 !important;">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1 fw-medium">
                                         <a href="/admin/berita/${berita.id}" class="text-decoration-none text-dark">
-                                            ${berita.judul.length > 40 ? berita.judul.substring(0, 40) + '...' : berita.judul}
+                                            ${berita.judul.length > 50 ? berita.judul.substring(0, 50) + '...' : berita.judul}
                                         </a>
                                     </h6>
-                                    <small class="text-muted">
-                                        <i class="fas fa-user me-1"></i>Admin • 
-                                        <i class="fas fa-calendar me-1"></i>${formatDate(berita.created_at)}
-                                    </small>
-                                </div>
-                                <div class="col-md-3">
-                                    <span class="badge bg-primary rounded-pill">
-                                        ${berita.kategori_berita?.nama_kategori || 'Uncategorized'}
-                                    </span>
-                                    ${featuredBadge}
-                                </div>
-                                <div class="col-md-2 text-center">
-                                    ${statusBadge}
-                                </div>
-                                <div class="col-md-1 text-end">
-                                    <small class="text-muted">
-                                        <i class="fas fa-eye me-1"></i>${(berita.views || 0).toLocaleString()}
-                                    </small>
+                                    <div class="d-flex align-items-center gap-3 mt-2">
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar me-1"></i>${formatDate(berita.created_at)}
+                                        </small>
+                                        <small class="text-muted">
+                                            <i class="fas fa-eye me-1"></i>${(berita.views || 0).toLocaleString()}
+                                        </small>
+                                        <span class="badge bg-light text-dark border">
+                                            ${berita.kategori_berita?.nama_kategori || 'Uncategorized'}
+                                        </span>
+                                        ${statusBadge}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -311,22 +349,25 @@ document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('kategori-stats-container');
             
             if (data.data && data.data.length > 0) {
-                let html = '<div class="category-stats">';
+                let html = '<div class="row">';
                 
-                data.data.forEach(kategori => {
+                data.data.forEach((kategori, index) => {
                     const beritaCount = kategori.beritas_count || 0;
                     const publishedCount = kategori.beritas_published_count || 0;
+                    const percentage = beritaCount > 0 ? Math.min((beritaCount / Math.max(...data.data.map(k => k.beritas_count || 0))) * 100, 100) : 0;
                     
                     html += `
-                        <div class="category-item mb-3">
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <span class="fw-medium">${kategori.nama_kategori}</span>
-                                <span class="text-muted">${beritaCount}</span>
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 border rounded" style="background: #fafbfc;">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="mb-0 fw-medium">${kategori.nama_kategori}</h6>
+                                    <span class="badge bg-light text-dark border">${beritaCount}</span>
+                                </div>
+                                <div class="progress bg-light mb-2" style="height: 6px; border-radius: 3px;">
+                                    <div class="progress-bar bg-dark" style="width: ${percentage}%; border-radius: 3px;"></div>
+                                </div>
+                                <small class="text-muted">${publishedCount} published dari ${beritaCount} total</small>
                             </div>
-                            <div class="progress" style="height: 6px;">
-                                <div class="progress-bar bg-info" style="width: ${beritaCount > 0 ? (beritaCount / 10) * 100 : 0}%"></div>
-                            </div>
-                            <small class="text-muted">${publishedCount} published</small>
                         </div>
                     `;
                 });
@@ -360,13 +401,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.data && data.data.length > 0) {
                 let html = '<div class="row">';
                 
-                data.data.slice(0, 6).forEach(gallery => {
+                data.data.slice(0, 4).forEach(gallery => {
                     html += `
-                        <div class="col-md-4 mb-3">
-                            <div class="card">
-                                <img src="/storage/${gallery.gambar}" class="card-img-top" style="height: 150px; object-fit: cover;" alt="${gallery.judul}">
-                                <div class="card-body p-2">
-                                    <h6 class="card-title mb-1">${gallery.judul.length > 30 ? gallery.judul.substring(0, 30) + '...' : gallery.judul}</h6>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center p-2 rounded border" style="background: #fafbfc;">
+                                <img src="/storage/${gallery.gambar}" class="rounded me-3" style="width: 60px; height: 60px; object-fit: cover;" alt="${gallery.judul}">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1 fw-medium" style="font-size: 0.875rem;">${gallery.judul.length > 30 ? gallery.judul.substring(0, 30) + '...' : gallery.judul}</h6>
                                     <small class="text-muted">${formatDate(gallery.tanggal_foto)}</small>
                                 </div>
                             </div>
@@ -400,18 +441,24 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.data && data.data.length > 0) {
                 let html = '';
                 
-                data.data.forEach(berita => {
+                data.data.forEach((berita, index) => {
                     html += `
-                        <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div class="d-flex align-items-center mb-3 p-2 rounded" style="background: #fafbfc;">
+                            <div class="me-3">
+                                <span class="badge bg-light text-dark border fw-bold" style="width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">${index + 1}</span>
+                            </div>
                             <div class="flex-grow-1">
-                                <h6 class="mb-1">
-                                    <a href="/admin/berita/${berita.id}" class="text-decoration-none">
-                                        ${berita.judul.length > 40 ? berita.judul.substring(0, 40) + '...' : berita.judul}
+                                <h6 class="mb-1 fw-medium" style="font-size: 0.875rem;">
+                                    <a href="/admin/berita/${berita.id}" class="text-decoration-none text-dark">
+                                        ${berita.judul.length > 35 ? berita.judul.substring(0, 35) + '...' : berita.judul}
                                     </a>
                                 </h6>
-                                <small class="text-muted">${berita.kategori_berita?.nama_kategori || 'Uncategorized'}</small>
+                                <div class="d-flex align-items-center gap-2">
+                                    <small class="text-muted">${berita.kategori_berita?.nama_kategori || 'Uncategorized'}</small>
+                                    <small class="text-muted">•</small>
+                                    <small class="text-muted">${(berita.views || 0).toLocaleString()} views</small>
+                                </div>
                             </div>
-                            <span class="badge bg-warning text-dark">${(berita.views || 0).toLocaleString()} views</span>
                         </div>
                     `;
                 });
@@ -434,13 +481,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function getStatusBadge(status) {
         switch (status) {
             case 'published':
-                return '<span class="badge bg-success rounded-pill">Published</span>';
+                return '<span class="badge bg-light text-success border border-success">Published</span>';
             case 'draft':
-                return '<span class="badge bg-secondary rounded-pill">Draft</span>';
+                return '<span class="badge bg-light text-muted border">Draft</span>';
             case 'archived':
-                return '<span class="badge bg-warning rounded-pill">Archived</span>';
+                return '<span class="badge bg-light text-warning border border-warning">Archived</span>';
             default:
-                return '<span class="badge bg-light text-dark rounded-pill">Unknown</span>';
+                return '<span class="badge bg-light text-muted border">Unknown</span>';
         }
     }
     
