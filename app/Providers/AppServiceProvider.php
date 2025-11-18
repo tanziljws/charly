@@ -20,11 +20,31 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Ensure storage link exists
-        if (!file_exists(public_path('storage'))) {
+        $storageLink = public_path('storage');
+        $storageTarget = storage_path('app/public');
+        
+        if (!file_exists($storageLink)) {
             try {
+                // Try to create symlink
+                if (is_link($storageLink)) {
+                    // Remove broken symlink
+                    unlink($storageLink);
+                }
                 \Illuminate\Support\Facades\Artisan::call('storage:link');
             } catch (\Exception $e) {
-                // Silently fail if link already exists or can't be created
+                // If symlink fails, try to create directory structure
+                // This is a fallback for environments where symlinks don't work
+                if (!file_exists($storageTarget)) {
+                    \Illuminate\Support\Facades\File::makeDirectory($storageTarget, 0755, true);
+                }
+            }
+        } elseif (is_link($storageLink) && !file_exists($storageLink)) {
+            // Fix broken symlink
+            try {
+                unlink($storageLink);
+                \Illuminate\Support\Facades\Artisan::call('storage:link');
+            } catch (\Exception $e) {
+                // Silently fail
             }
         }
     }
