@@ -4,3 +4,8 @@
 !gallery/
 !berita/**
 !gallery/**
+!*.jpg
+!*.jpeg
+!*.png
+!*.gif
+!*.webp
