@@ -9,6 +9,34 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Frontend\SearchController;
 
+// Storage file serving route (for Railway compatibility)
+// This route serves files from storage/app/public when symlink doesn't work
+Route::get('/storage/{path}', function ($path) {
+    // Security: prevent directory traversal
+    $path = str_replace('..', '', $path);
+    $path = ltrim($path, '/');
+    
+    $filePath = storage_path('app/public/' . $path);
+    
+    // Check if file exists and is within storage/app/public directory
+    if (!file_exists($filePath) || !str_starts_with(realpath($filePath), realpath(storage_path('app/public')))) {
+        abort(404);
+    }
+    
+    // Check if it's a file, not a directory
+    if (!is_file($filePath)) {
+        abort(404);
+    }
+    
+    $file = \Illuminate\Support\Facades\File::get($filePath);
+    $type = \Illuminate\Support\Facades\File::mimeType($filePath);
+    
+    return response($file, 200)
+        ->header('Content-Type', $type)
+        ->header('Cache-Control', 'public, max-age=31536000')
+        ->header('Content-Length', filesize($filePath));
+})->where('path', '.*');
+
 // Frontend Routes
 Route::get('/', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
 Route::get('/berita', [App\Http\Controllers\Frontend\BeritaController::class, 'index'])->name('berita.index');
