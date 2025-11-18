@@ -11,30 +11,67 @@ use App\Http\Controllers\Frontend\SearchController;
 
 // Storage file serving route (for Railway compatibility)
 // This route serves files from storage/app/public when symlink doesn't work
+// Must be before other routes to catch storage requests
 Route::get('/storage/{path}', function ($path) {
-    // Security: prevent directory traversal
-    $path = str_replace('..', '', $path);
-    $path = ltrim($path, '/');
-    
-    $filePath = storage_path('app/public/' . $path);
-    
-    // Check if file exists and is within storage/app/public directory
-    if (!file_exists($filePath) || !str_starts_with(realpath($filePath), realpath(storage_path('app/public')))) {
-        abort(404);
+    try {
+        // Security: prevent directory traversal
+        $path = str_replace(['..', "\0"], '', $path);
+        $path = ltrim($path, '/');
+        
+        // Build full file path
+        $filePath = storage_path('app/public/' . $path);
+        $storagePath = realpath(storage_path('app/public'));
+        
+        // Check if storage directory exists
+        if (!$storagePath) {
+            abort(404, 'Storage directory not found');
+        }
+        
+        // Check if file exists
+        if (!file_exists($filePath)) {
+            abort(404, 'File not found: ' . $path);
+        }
+        
+        // Get real path to prevent directory traversal
+        $realFilePath = realpath($filePath);
+        if (!$realFilePath || !str_starts_with($realFilePath, $storagePath)) {
+            abort(403, 'Access denied');
+        }
+        
+        // Check if it's a file, not a directory
+        if (!is_file($realFilePath) || !is_readable($realFilePath)) {
+            abort(403, 'File not readable');
+        }
+        
+        // Get file content and mime type
+        $file = \Illuminate\Support\Facades\File::get($realFilePath);
+        $type = \Illuminate\Support\Facades\File::mimeType($realFilePath);
+        
+        // If mime type detection fails, try to guess from extension
+        if (!$type) {
+            $extension = strtolower(pathinfo($realFilePath, PATHINFO_EXTENSION));
+            $mimeTypes = [
+                'jpg' => 'image/jpeg',
+                'jpeg' => 'image/jpeg',
+                'png' => 'image/png',
+                'gif' => 'image/gif',
+                'webp' => 'image/webp',
+            ];
+            $type = $mimeTypes[$extension] ?? 'application/octet-stream';
+        }
+        
+        return response($file, 200)
+            ->header('Content-Type', $type)
+            ->header('Cache-Control', 'public, max-age=31536000')
+            ->header('Content-Length', filesize($realFilePath))
+            ->header('Accept-Ranges', 'bytes');
+    } catch (\Exception $e) {
+        \Log::error('Storage file serving error: ' . $e->getMessage(), [
+            'path' => $path,
+            'file' => $filePath ?? null
+        ]);
+        abort(500, 'Error serving file');
     }
-    
-    // Check if it's a file, not a directory
-    if (!is_file($filePath)) {
-        abort(404);
-    }
-    
-    $file = \Illuminate\Support\Facades\File::get($filePath);
-    $type = \Illuminate\Support\Facades\File::mimeType($filePath);
-    
-    return response($file, 200)
-        ->header('Content-Type', $type)
-        ->header('Cache-Control', 'public, max-age=31536000')
-        ->header('Content-Length', filesize($filePath));
 })->where('path', '.*');
 
 // Frontend Routes
